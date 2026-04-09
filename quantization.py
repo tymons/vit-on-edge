@@ -43,8 +43,6 @@ from litert_torch.quantize.quant_config import QuantConfig
 from torchao.quantization.pt2e.quantize_pt2e import convert_pt2e, prepare_pt2e
 
 from mobilevit import mobilevit_s, mobilevit_xs, mobilevit_xxs
-import tensorflow as tf
-import numpy as np
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
@@ -111,11 +109,6 @@ class SyntheticImageNet(Dataset):
         label = int(torch.randint(0, 1000, ()).item())
         return image, label
     
-def representative_dataset():
-    for _ in range(100):
-        data = np.random.rand(INPUT_SIZE, INPUT_SIZE, 3)
-        yield [data.astype(np.float32)]
-
 
 def build_calibration_loader(
     imagenet_root: Optional[str] = None,
@@ -317,6 +310,35 @@ def parse_args() -> argparse.Namespace:
     )
     return parser.parse_args()
 
+def quantize_mobilevit_int8_tflite(model: torch.nn.Module, output_path: str):
+    import tensorflow as tf
+    import numpy as np
+
+    def representative_dataset():
+        for _ in range(100):
+            data = np.random.rand(1, 3, INPUT_SIZE, INPUT_SIZE)
+            yield [data.astype(np.float32)]
+
+    tfl_converter_flags = {
+        'optimizations': [tf.lite.Optimize.DEFAULT],
+        'representative_dataset': representative_dataset,
+        'target_spec.supported_ops': [tf.lite.OpsSet.TFLITE_BUILTINS_INT8],
+        'inference_input_type': tf.int8,
+        'inference_output_type': tf.int8,
+        # "_experimental_disable_per_channel": True
+    }
+    
+    sample_args = (torch.randn(1, 3, INPUT_SIZE, INPUT_SIZE),)
+
+    tfl_drq_model = litert_torch.convert(
+        model, sample_args, _ai_edge_converter_flags=tfl_converter_flags
+    )
+
+    tfl_drq_model.export(output_path)
+    size_mb = Path(output_path).stat().st_size / 1024 / 1024
+    print(f"\n✓  Quantized (tflite-based) model saved → '{output_path}'  ({size_mb:.2f} MB)")
+    
+
 
 def main() -> None:
     args = parse_args()
@@ -339,11 +361,16 @@ def main() -> None:
     )
 
     # ---- Quantize + export ---------------------------------------------------
-    quantize_mobilevit_int8(
+    # quantize_mobilevit_int8(
+    #     model=model,
+    #     loader=loader,
+    #     output_path=args.output,
+    #     num_calibration_batches=args.num_cal_batches,
+    # )
+
+    quantize_mobilevit_int8_tflite(
         model=model,
-        loader=loader,
-        output_path=args.output,
-        num_calibration_batches=args.num_cal_batches,
+        output_path=args.output
     )
 
 
