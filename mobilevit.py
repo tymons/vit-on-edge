@@ -8,7 +8,7 @@ def conv_1x1_bn(inp, oup):
     return nn.Sequential(
         nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
         nn.BatchNorm2d(oup),
-        nn.SiLU()
+        nn.ReLU6(inplace=True)
     )
 
 
@@ -16,7 +16,7 @@ def conv_nxn_bn(inp, oup, kernal_size=3, stride=1):
     return nn.Sequential(
         nn.Conv2d(inp, oup, kernal_size, stride, 1, bias=False),
         nn.BatchNorm2d(oup),
-        nn.SiLU()
+        nn.ReLU6(inplace=True)
     )
 
 
@@ -35,7 +35,7 @@ class FeedForward(nn.Module):
         super().__init__()
         self.net = nn.Sequential(
             nn.Linear(dim, hidden_dim),
-            nn.SiLU(),
+            nn.ReLU6(inplace=True),
             nn.Dropout(dropout),
             nn.Linear(hidden_dim, dim),
             nn.Dropout(dropout)
@@ -93,6 +93,7 @@ class Transformer(nn.Module):
 class MV2Block(nn.Module):
     def __init__(self, inp, oup, stride=1, expansion=4):
         super().__init__()
+
         self.stride = stride
         assert stride in [1, 2]
 
@@ -104,7 +105,7 @@ class MV2Block(nn.Module):
                 # dw
                 nn.Conv2d(hidden_dim, hidden_dim, 3, stride, 1, groups=hidden_dim, bias=False),
                 nn.BatchNorm2d(hidden_dim),
-                nn.SiLU(),
+                nn.ReLU6(inplace=True),
                 # pw-linear
                 nn.Conv2d(hidden_dim, oup, 1, 1, 0, bias=False),
                 nn.BatchNorm2d(oup),
@@ -114,11 +115,11 @@ class MV2Block(nn.Module):
                 # pw
                 nn.Conv2d(inp, hidden_dim, 1, 1, 0, bias=False),
                 nn.BatchNorm2d(hidden_dim),
-                nn.SiLU(),
+                nn.ReLU6(inplace=True),
                 # dw
                 nn.Conv2d(hidden_dim, hidden_dim, 3, stride, 1, groups=hidden_dim, bias=False),
                 nn.BatchNorm2d(hidden_dim),
-                nn.SiLU(),
+                nn.ReLU6(inplace=True),
                 # pw-linear
                 nn.Conv2d(hidden_dim, oup, 1, 1, 0, bias=False),
                 nn.BatchNorm2d(oup),
