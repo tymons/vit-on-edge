@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
-
-from einops import rearrange
+import torch.nn.functional as F
 
 
 def conv_1x1_bn(inp, oup):
@@ -63,14 +62,27 @@ class Attention(nn.Module):
         ) if project_out else nn.Identity()
 
     def forward(self, x):
-        qkv = self.to_qkv(x).chunk(3, dim=-1)
-        q, k, v = map(lambda t: rearrange(t, 'b p n (h d) -> b p h n d', h = self.heads), qkv)
+        # x: [B, p, n, D]
+        B, p, n, _ = x.shape
+        dh = self.to_qkv.out_features // 3 // self.heads
 
-        dots = torch.matmul(q, k.transpose(-1, -2)) * self.scale
-        attn = self.attend(dots)
-        out = torch.matmul(attn, v)
-        out = rearrange(out, 'b p h n d -> b p n (h d)')
-        return self.to_out(out)
+        # Project and split into Q, K, V — all 3D
+        qkv = self.to_qkv(x.reshape(B * p, n, -1))  # [B*p, n, 3*H*dh]
+        q, k, v = qkv.chunk(3, dim=-1)              # each [B*p, n, H*dh]
+
+        # Reshape to [B*p, heads, n, dh] — 4D ✓
+        q = q.reshape(B * p, n, self.heads, dh).transpose(1, 2)
+        k = k.reshape(B * p, n, self.heads, dh).transpose(1, 2)
+        v = v.reshape(B * p, n, self.heads, dh).transpose(1, 2)
+
+        dots = torch.matmul(q, k.transpose(-1, -2)) * self.scale  # [B*p, H, n, n] — 4D ✓
+        attn = self.attend(dots)                                   # SOFTMAX on 4D ✓
+        out = torch.matmul(attn, v)                               # [B*p, H, n, dh] — 4D ✓
+
+        # Merge heads and restore patch dimension
+        out = out.transpose(1, 2).reshape(B * p, n, self.heads * dh)  # [B*p, n, D]
+        out = self.to_out(out)                                         # [B*p, n, D]
+        return out.reshape(B, p, n, -1)                               # [B, p, n, D] — 4D ✓
 
 
 class Transformer(nn.Module):
@@ -151,12 +163,28 @@ class MobileViTBlock(nn.Module):
         # Local representations
         x = self.conv1(x)
         x = self.conv2(x)
-        
-        # Global representations
-        _, _, h, w = x.shape
-        x = rearrange(x, 'b d (h ph) (w pw) -> b (ph pw) (h w) d', ph=self.ph, pw=self.pw)
+
+        # Global representations — all tensors ≤4D (NPU-friendly)
+        # F.fold maps to STABLEHLO_SCATTER which TFLite does not support.
+        # pixel_unshuffle / pixel_shuffle map to SPACE_TO_DEPTH / DEPTH_TO_SPACE
+        # which are native TFLite ops and run on Ethos-U.
+        B, D, H, W = x.shape
+        ph, pw = self.ph, self.pw
+        assert ph == pw, "pixel_unshuffle/shuffle require square patch size"
+        nh, nw = H // ph, W // pw
+
+        # SPACE_TO_DEPTH: [B, D, H, W] → [B, D*ph*pw, nh, nw] — 4D ✓
+        x = F.pixel_unshuffle(x, ph)
+        x = x.flatten(2)                          # [B, D*ph*pw, nh*nw] — 3D ✓
+        x = x.reshape(B, D, ph * pw, nh * nw)    # [B, D, ph*pw, nh*nw] — 4D ✓
+        x = x.permute(0, 2, 3, 1)                # [B, ph*pw, nh*nw, D] — 4D ✓
+
         x = self.transformer(x)
-        x = rearrange(x, 'b (ph pw) (h w) d -> b d (h ph) (w pw)', h=h//self.ph, w=w//self.pw, ph=self.ph, pw=self.pw)
+
+        # DEPTH_TO_SPACE: inverse of above — all ops ≤4D ✓
+        x = x.permute(0, 3, 1, 2)                # [B, D, ph*pw, nh*nw] — 4D ✓
+        x = x.reshape(B, D * ph * pw, nh, nw)    # [B, D*ph*pw, nh, nw] — 4D ✓
+        x = F.pixel_shuffle(x, ph)               # [B, D, H, W] — 4D ✓
 
         # Fusion
         x = self.conv3(x)
