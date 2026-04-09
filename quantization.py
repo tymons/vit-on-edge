@@ -325,7 +325,6 @@ def quantize_mobilevit_int8_tflite(model: torch.nn.Module, output_path: str):
         'target_spec.supported_ops': [tf.lite.OpsSet.TFLITE_BUILTINS_INT8],
         'inference_input_type': tf.int8,
         'inference_output_type': tf.int8,
-        # "_experimental_disable_per_channel": True
     }
     
     sample_args = (torch.randn(1, 3, INPUT_SIZE, INPUT_SIZE),)
