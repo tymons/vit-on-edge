@@ -1,4 +1,3 @@
-*.tflite
+./*.tflite
 .venv/
 __pycache__/
-*.csv*
