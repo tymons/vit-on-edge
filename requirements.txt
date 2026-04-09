@@ -1,0 +1,2 @@
+litert-torch==0.8.0
+torchvision==0.26.0

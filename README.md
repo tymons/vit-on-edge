@@ -33,3 +33,11 @@ out = vit(img)
 ## Credits
 
 Code adapted from [MobileNetV2](https://github.com/tonylins/pytorch-mobilenet-v2) and [ViT](https://github.com/lucidrains/vit-pytorch).
+
+## Quantization
+
+Run quantization with: 
+
+```python
+python quantization.py --variant xxs --output mobilevit_xxs_int8.tflite
+```
