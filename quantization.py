@@ -201,23 +201,6 @@ def quantize_mobilevit_int8(
         ``"cuda"`` for faster calibration when a GPU is available).
     """
     model = model.eval().to(device)
-    # ss = (torch.randn(1, 3, INPUT_SIZE, INPUT_SIZE, device=device),)
-    ss = (tf.random.normal([1, 3, INPUT_SIZE, INPUT_SIZE]),)
-    # Pass TfLite Converter quantization flags to _ai_edge_converter_flags parameter.
-    tfl_converter_flags = {
-        'optimizations': [tf.lite.Optimize.DEFAULT],
-        'target_spec.supported_ops': [tf.lite.OpsSet.TFLITE_BUILTINS_INT8],
-        'inference_input_type': tf.int8,
-        'inference_output_type': tf.int8,
-        "_experimental_disable_per_channel": True 
-    }
-
-    tfl_fullint_model = litert_torch.convert(
-        model, ss, _ai_edge_converter_flags=tfl_converter_flags
-    )
-
-    tfl_fullint_model.export('layernorm.tflite')
-    return
     # ------------------------------------------------------------------
     # Step 1 – Configure the PT2E quantizer
     #   • is_per_channel=True  → per-output-channel weight quantization
