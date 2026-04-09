@@ -65,24 +65,27 @@ class Attention(nn.Module):
         # x: [B, p, n, D]
         B, p, n, _ = x.shape
         dh = self.to_qkv.out_features // 3 // self.heads
+        Bp  = B * p
+        BpH = Bp * self.heads
 
-        # Project and split into Q, K, V — all 3D
-        qkv = self.to_qkv(x.reshape(B * p, n, -1))  # [B*p, n, 3*H*dh]
-        q, k, v = qkv.chunk(3, dim=-1)              # each [B*p, n, H*dh]
+        # Project — 3D, no transpose yet
+        qkv = self.to_qkv(x.reshape(Bp, n, -1))   # [Bp, n, 3*H*dh]
+        q, k, v = qkv.chunk(3, dim=-1)             # each [Bp, n, H*dh]
 
-        # Reshape to [B*p, heads, n, dh] — 4D ✓
-        q = q.reshape(B * p, n, self.heads, dh).transpose(1, 2)
-        k = k.reshape(B * p, n, self.heads, dh).transpose(1, 2)
-        v = v.reshape(B * p, n, self.heads, dh).transpose(1, 2)
+        # Merge heads into batch → 3D throughout, zero [0,2,1,3] TRANSPOSEs ✓
+        # (the previous reshape+transpose(1,2) produced that unsupported perm)
+        q = q.reshape(BpH, n, dh)                  # [B*p*H, n, dh]
+        k = k.reshape(BpH, n, dh)
+        v = v.reshape(BpH, n, dh)
 
-        dots = torch.matmul(q, k.transpose(-1, -2)) * self.scale  # [B*p, H, n, n] — 4D ✓
-        attn = self.attend(dots)                                   # SOFTMAX on 4D ✓
-        out = torch.matmul(attn, v)                               # [B*p, H, n, dh] — 4D ✓
+        # k.transpose(-1,-2) → BATCH_MATMUL(adj_y=True), no separate TRANSPOSE ✓
+        dots = torch.bmm(q, k.transpose(-1, -2)) * self.scale  # [BpH, n, n]
+        attn = self.attend(dots)
+        out  = torch.bmm(attn, v)                              # [BpH, n, dh]
 
-        # Merge heads and restore patch dimension
-        out = out.transpose(1, 2).reshape(B * p, n, self.heads * dh)  # [B*p, n, D]
-        out = self.to_out(out)                                         # [B*p, n, D]
-        return out.reshape(B, p, n, -1)                               # [B, p, n, D] — 4D ✓
+        out = out.reshape(Bp, n, self.heads * dh)  # [Bp, n, D]
+        out = self.to_out(out)
+        return out.reshape(B, p, n, -1)            # [B, p, n, D] — 4D ✓
 
 
 class Transformer(nn.Module):

@@ -156,13 +156,17 @@ def _run_calibration(
     # The exported GraphModule has a static batch dimension of 1 (einops
     # rearrange inside MobileViT forces specialization).  We iterate through
     # each loaded batch and feed images one at a time.
+    # Images from the DataLoader are NCHW; permute to NHWC to match the
+    # channel-last model wrapper's expected input layout.
     seen = 0
     with torch.no_grad():
         for i, (images, _) in enumerate(loader):
             if i >= num_batches:
                 break
             for img in images:  # img: (3, H, W)
-                model(img.unsqueeze(0).to(device))  # add batch dim → (1, 3, H, W)
+                # NCHW → NHWC: [1, H, W, C]
+                nhwc = img.permute(1, 2, 0).unsqueeze(0).to(device)
+                model(nhwc)
                 seen += 1
             if (i + 1) % 8 == 0:
                 print(f"  calibration batch {i + 1}/{num_batches}  ({seen} samples)")
@@ -194,8 +198,17 @@ def quantize_mobilevit_int8(
         ``"cuda"`` for faster calibration when a GPU is available).
     """
     model = model.eval().to(device)
-    # ------------------------------------------------------------------
-    # Step 1 – Configure the PT2E quantizer
+
+    # Wrap with channel-last (NHWC) I/O before PT2E export.
+    # PyTorch Conv2d is NCHW; without this, litert_torch inserts a
+    # TRANSPOSE before and after every Conv2d to satisfy TFLite's NHWC
+    # requirement.  PT2E Q/DQ nodes prevent the converter from fusing those
+    # transposes into the conv, so they land on CPU.  Tracing the model
+    # in NHWC format (input: [B, H, W, C]) lets litert_torch emit native
+    # NHWC CONV2D ops directly, eliminating all layout-conversion transposes.
+    nhwc_model   = litert_torch.to_channel_last_io(model, args=[0])
+    # Sample args now use NHWC layout [B, H, W, C]
+    sample_args  = (torch.randn(1, INPUT_SIZE, INPUT_SIZE, 3, device=device),)
     #   • is_per_channel=True  → per-output-channel weight quantization
     #                            (better accuracy than per-tensor)
     #   • is_dynamic=False     → static quantization: activation scales are
@@ -214,12 +227,9 @@ def quantize_mobilevit_int8(
     # Step 2 – Export the model with torch.export
     # ------------------------------------------------------------------
     print("[2/5] Exporting model with torch.export …")
-    sample_args = (torch.randn(1, 3, INPUT_SIZE, INPUT_SIZE, device=device),)
-    # MobileViT uses einops.rearrange with shape arithmetic that references the
-    # spatial dimensions.  torch.export specializes these to constants, making a
-    # dynamic batch dimension impossible.  We export statically at batch=1 and
-    # feed images one at a time during calibration.
-    exported_program = torch.export.export(model, sample_args)
+    # Export the NHWC-wrapped model. MobileViT's shape arithmetic forces a
+    # static batch=1; calibration feeds images one at a time.
+    exported_program = torch.export.export(nhwc_model, sample_args)
     pt2e_model: torch.fx.GraphModule = exported_program.module()
 
     # ------------------------------------------------------------------
@@ -314,23 +324,31 @@ def quantize_mobilevit_int8_tflite(model: torch.nn.Module, output_path: str):
     import tensorflow as tf
     import numpy as np
 
+    model = model.eval()
+
+    # Wrap with NHWC I/O so litert_torch emits native NHWC CONV2D ops instead
+    # of inserting NCHW↔NHWC TRANSPOSE nodes that fall back to CPU on Ethos-U.
+    nhwc_model = litert_torch.to_channel_last_io(model, args=[0])
+
+    # Sample args and representative dataset must both use NHWC [B, H, W, C].
+    # litert_torch requires float32 I/O (Q/DQ nodes are internal); do NOT set
+    # inference_input_type / inference_output_type to tf.int8.
+    sample_args = (torch.randn(1, INPUT_SIZE, INPUT_SIZE, 3),)
+
     def representative_dataset():
+        rng = np.random.default_rng(seed=42)
         for _ in range(100):
-            data = np.random.rand(1, 3, INPUT_SIZE, INPUT_SIZE)
+            # NHWC: [1, H, W, C] — matches the NHWC-wrapped model's input
+            data = rng.standard_normal((1, INPUT_SIZE, INPUT_SIZE, 3))
             yield [data.astype(np.float32)]
 
     tfl_converter_flags = {
         'optimizations': [tf.lite.Optimize.DEFAULT],
         'representative_dataset': representative_dataset,
-        'target_spec.supported_ops': [tf.lite.OpsSet.TFLITE_BUILTINS_INT8],
-        'inference_input_type': tf.int8,
-        'inference_output_type': tf.int8,
     }
-    
-    sample_args = (torch.randn(1, 3, INPUT_SIZE, INPUT_SIZE),)
 
     tfl_drq_model = litert_torch.convert(
-        model, sample_args, _ai_edge_converter_flags=tfl_converter_flags
+        nhwc_model, sample_args, _ai_edge_converter_flags=tfl_converter_flags
     )
 
     tfl_drq_model.export(output_path)
