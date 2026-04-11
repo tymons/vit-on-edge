@@ -1,6 +1,4 @@
 ./*.tflite
 .venv/
 __pycache__/
-runs/
-checkpoints/
 dataset/

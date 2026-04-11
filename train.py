@@ -6,16 +6,23 @@ Trains MobileViT-XXS/XS/S on ImageNet or automatically downloads ImageNette
 (a free 10-class ImageNet subset) as a fallback.
 
 Usage:
+    # Train a specific architecture variant (optim_0 … optim_3)
+    python train.py --arch optim_0 --model xxs
+
     # Full ImageNet (must be pre-downloaded to ./dataset/imagenet/)
-    python train.py --model xxs --dataset-dir ./dataset
+    python train.py --arch optim_2 --model xxs --dataset-dir ./dataset
 
     # Auto-download ImageNette (default fallback)
-    python train.py --model xxs
+    python train.py --arch optim_1 --model xxs
 
     # Resume from a checkpoint
-    python train.py --model xxs --resume ./checkpoints/last.pth
+    python train.py --arch optim_0 --model xxs --resume ./archs/optim_0/runs/last.pth
+
+Outputs (checkpoints + TensorBoard logs) are written to ./archs/<arch>/runs/
+by default, keeping each variant's results isolated.
 """
 
+import importlib.util
 import math
 import os
 import argparse
@@ -31,8 +38,6 @@ from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 from torchvision import transforms
 from torchvision.datasets import ImageFolder, ImageNet
-
-from mobilevit import MobileViT
 
 # ---------------------------------------------------------------------------
 # Dataset helpers
@@ -145,10 +150,26 @@ _MODEL_CFGS = {
     "s":   dict(dims=[144, 192, 240],      channels=[16, 32, 64, 64, 96, 96, 128, 128, 160, 160, 640], expansion=4),
 }
 
+ARCH_CHOICES = ["optim_0", "optim_1", "optim_2", "optim_3"]
 
-def build_model(variant: str, image_size: int, num_classes: int) -> nn.Module:
+
+def load_mobilevit_module(arch: str):
+    """Dynamically import mobilevit.py from archs/<arch>/ so each
+    optimisation variant is loaded in isolation without polluting sys.modules."""
+    script_dir = Path(__file__).parent
+    module_path = script_dir / "archs" / arch / "mobilevit.py"
+    if not module_path.exists():
+        raise FileNotFoundError(f"Architecture module not found: {module_path}")
+    spec = importlib.util.spec_from_file_location(f"mobilevit_{arch}", module_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def build_model(variant: str, image_size: int, num_classes: int,
+                model_cls) -> nn.Module:
     cfg = _MODEL_CFGS[variant]
-    return MobileViT(
+    return model_cls(
         image_size=(image_size, image_size),
         dims=cfg["dims"],
         channels=cfg["channels"],
@@ -317,9 +338,11 @@ def parse_args():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
-    # Model
+    # Architecture & model
+    parser.add_argument("--arch", type=str, default="optim_0", choices=ARCH_CHOICES,
+                        help="Architecture variant to load from archs/<arch>/mobilevit.py")
     parser.add_argument("--model",     type=str, default="xxs", choices=["xxs", "xs", "s"],
-                        help="MobileViT variant")
+                        help="MobileViT size variant")
     parser.add_argument("--image-size", type=int, default=256,
                         help="Input resolution (H=W)")
 
@@ -333,7 +356,7 @@ def parse_args():
                         help="Override detected number of classes")
 
     # Training
-    parser.add_argument("--epochs",       type=int,   default=300)
+    parser.add_argument("--epochs",       type=int,   default=100)
     parser.add_argument("--batch-size",   type=int,   default=16)
     parser.add_argument("--lr",           type=float, default=2e-3,
                         help="Peak learning rate")
@@ -355,9 +378,10 @@ def parse_args():
     # Logging / checkpointing
     parser.add_argument("--log-freq", type=int, default=50,
                         help="Print & log every N steps")
-    parser.add_argument("--save-dir", type=str, default="./checkpoints")
-    parser.add_argument("--log-dir",  type=str, default="./runs",
-                        help="TensorBoard log directory")
+    parser.add_argument("--save-dir", type=str, default=None,
+                        help="Checkpoint directory (default: ./archs/<arch>/runs)")
+    parser.add_argument("--log-dir",  type=str, default=None,
+                        help="TensorBoard log directory (default: ./archs/<arch>/runs)")
     parser.add_argument("--resume",   type=str, default=None,
                         help="Path to checkpoint to resume from")
 
@@ -373,6 +397,18 @@ def parse_args():
 
 def main():
     args = parse_args()
+
+    # Resolve output paths from --arch when not explicitly provided
+    arch_runs_dir = Path("archs") / args.arch / "runs"
+    if args.save_dir is None:
+        args.save_dir = str(arch_runs_dir)
+    if args.log_dir is None:
+        args.log_dir = str(arch_runs_dir)
+
+    # Dynamically load the requested architecture
+    print(f"[Arch] Loading mobilevit from archs/{args.arch}/mobilevit.py")
+    mobilevit_mod = load_mobilevit_module(args.arch)
+    MobileViT = mobilevit_mod.MobileViT
 
     # Reproducibility
     torch.manual_seed(args.seed)
@@ -411,7 +447,7 @@ def main():
     )
 
     # Model
-    model = build_model(args.model, args.image_size, num_classes).to(device)
+    model = build_model(args.model, args.image_size, num_classes, MobileViT).to(device)
     if torch.cuda.device_count() > 1:
         print(f"[Device] Using {torch.cuda.device_count()} GPUs with DataParallel")
         model = nn.DataParallel(model)
@@ -459,7 +495,9 @@ def main():
     # Training loop
     # -----------------------------------------------------------------------
     print(f"\n{'='*60}")
-    print(f" Training MobileViT-{args.model.upper()} for {args.epochs} epochs")
+    print(f" Training MobileViT-{args.model.upper()} ({args.arch}) for {args.epochs} epochs")
+    print(f" Checkpoints : {args.save_dir}")
+    print(f" TensorBoard : {args.log_dir}")
     print(f"{'='*60}\n")
 
     for epoch in range(start_epoch, args.epochs):

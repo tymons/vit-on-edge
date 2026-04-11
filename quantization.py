@@ -1,23 +1,24 @@
 """
-MobileViT INT8 Static Quantization using LiteRT-Torch (PT2E).
+MobileViT TFLite Export & INT8 Quantization using LiteRT-Torch.
 
-Pipeline:
-  1. Build a PT2EQuantizer (symmetric per-channel weights, static activations).
-  2. Export the model with torch.export.
-  3. Insert calibration observers via prepare_pt2e.
-  4. Run forward passes on an ImageNet calibration subset to populate observer
-     statistics (synthetic data is used automatically when no real dataset is
-     available).
-  5. Fold observers → INT8 quantized graph via convert_pt2e.
-  6. Lower to TFLite via litert_torch.convert.
-  7. Serialize to a .tflite flatbuffer.
+For each run the script produces TWO models inside ``archs/<arch>/out/``:
+  1. ``mobilevit_<variant>_float.tflite``  – float32, no quantization.
+  2. ``mobilevit_<variant>_int8.tflite``   – INT8 static quantization via
+     a representative calibration dataset.
+
+A three-row accuracy comparison table (float32 PyTorch / float32 TFLite /
+INT8 TFLite) is printed to stdout and saved as ``accuracy_summary.txt`` in
+the same output folder.
 
 Usage:
-    # With real ImageNet validation set:
-    python quantization.py --variant s --imagenet-root /data/imagenet
+    # Baseline architecture, XXS variant, synthetic calibration:
+    python quantization.py --arch optim_0 --variant xxs
 
-    # With synthetic calibration data (no dataset required):
-    python quantization.py --variant s
+    # With a real ImageNet validation set:
+    python quantization.py --arch optim_2 --variant xxs --imagenet-root /data/imagenet
+
+    # Override output directory:
+    python quantization.py --arch optim_1 --variant xxs --output-dir ./my_outputs
 
 Dependencies:
     pip install litert-torch torchvision
@@ -26,6 +27,7 @@ Dependencies:
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import os
 from pathlib import Path
 from typing import Optional
@@ -41,8 +43,6 @@ from litert_torch.quantize.pt2e_quantizer import (
 )
 from litert_torch.quantize.quant_config import QuantConfig
 from torchao.quantization.pt2e.quantize_pt2e import convert_pt2e, prepare_pt2e
-
-from mobilevit import mobilevit_s, mobilevit_xs, mobilevit_xxs
 
 # ---------------------------------------------------------------------------
 # Utilities
@@ -242,6 +242,20 @@ def build_val_loader(
 # ---------------------------------------------------------------------------
 
 CHECKPOINT_DIR_DEFAULT = "./checkpoints"
+
+ARCH_CHOICES = ["optim_0", "optim_1", "optim_2", "optim_3"]
+
+
+def load_mobilevit_module(arch: str):
+    """Dynamically import mobilevit.py from archs/<arch>/ in isolation."""
+    script_dir  = Path(__file__).parent
+    module_path = script_dir / "archs" / arch / "mobilevit.py"
+    if not module_path.exists():
+        raise FileNotFoundError(f"Architecture module not found: {module_path}")
+    spec   = importlib.util.spec_from_file_location(f"mobilevit_{arch}", module_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def _resolve_checkpoint_path(
@@ -485,12 +499,20 @@ def parse_args() -> argparse.Namespace:
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
+    # ---- Architecture --------------------------------------------------------
+    parser.add_argument(
+        "--arch",
+        choices=ARCH_CHOICES,
+        default="optim_0",
+        help="Architecture variant to load from archs/<arch>/mobilevit.py.",
+    )
+
     # ---- Model ---------------------------------------------------------------
     parser.add_argument(
         "--variant",
         choices=["xxs", "xs", "s"],
-        default="s",
-        help="MobileViT variant to quantize.",
+        default="xxs",
+        help="MobileViT size variant to quantize.",
     )
 
     # ---- Checkpoint ----------------------------------------------------------
@@ -508,9 +530,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--checkpoint-dir",
-        default=CHECKPOINT_DIR_DEFAULT,
+        default=None,
         metavar="DIR",
-        help="Directory to search for best.pth / last.pth.",
+        help=(
+            "Directory to search for best.pth / last.pth.  "
+            "Defaults to archs/<arch>/runs when omitted."
+        ),
     )
 
     # ---- Dataset -------------------------------------------------------------
@@ -544,12 +569,18 @@ def parse_args() -> argparse.Namespace:
         help="Skip accuracy evaluation entirely (calibrate and export only).",
     )
 
-    # ---- Quantization --------------------------------------------------------
+    # ---- Output --------------------------------------------------------------
     parser.add_argument(
-        "--output",
-        default="mobilevit_int8.tflite",
-        help="Destination path for the quantized .tflite model.",
+        "--output-dir",
+        default=None,
+        metavar="DIR",
+        help=(
+            "Directory for exported TFLite models and the accuracy summary.  "
+            "Defaults to archs/<arch>/out when omitted."
+        ),
     )
+
+    # ---- Quantization --------------------------------------------------------
     parser.add_argument(
         "--num-cal-batches",
         type=int,
@@ -647,6 +678,44 @@ def quantize_mobilevit_int8_tflite(
     return out
 
 
+def convert_mobilevit_float_tflite(
+    model: torch.nn.Module,
+    output_path: str,
+) -> str:
+    """
+    Convert *model* to a float32 TFLite flatbuffer (no quantization).
+
+    The model is wrapped with NHWC I/O via ``litert_torch.to_channel_last_io``
+    so the exported graph uses native NHWC CONV2D ops, identical to the INT8
+    path.  This allows a fair latency comparison between the two TFLite models.
+
+    Parameters
+    ----------
+    model:
+        Float32 MobileViT ``nn.Module``.
+    output_path:
+        Destination ``.tflite`` file path.
+
+    Returns
+    -------
+    str
+        Resolved absolute path to the exported ``.tflite`` file.
+    """
+    model = model.eval().cpu()
+
+    nhwc_model  = litert_torch.to_channel_last_io(model, args=[0])
+    sample_args = (torch.randn(1, INPUT_SIZE, INPUT_SIZE, 3),)
+
+    print("[convert] Converting to float32 TFLite (no quantization) …")
+    tfl_model = litert_torch.convert(nhwc_model, sample_args)
+
+    out = str(Path(output_path).resolve())
+    tfl_model.export(out)
+    size_mb = Path(out).stat().st_size / 1024 / 1024
+    print(f"\n✓  Float32 TFLite model saved → '{out}'  ({size_mb:.2f} MB)")
+    return out
+
+
 def evaluate_tflite_model(
     tflite_path: str,
     loader: DataLoader,
@@ -704,18 +773,98 @@ def evaluate_tflite_model(
             )
 
     return top1_m.avg, top5_m.avg
-    
+
+
+def save_accuracy_summary(
+    path: str,
+    rows: list[tuple[str, Optional[float], Optional[float]]],
+    arch: str,
+    variant: str,
+    checkpoint_label: str = "unknown",
+) -> None:
+    """
+    Write a formatted three-model accuracy comparison table to *path* and
+    print it to stdout.
+
+    Parameters
+    ----------
+    path:
+        Destination ``.txt`` file.
+    rows:
+        List of ``(label, top1, top5)`` tuples.  Pass ``None`` for accuracy
+        values that were not measured (e.g. when ``--skip-eval`` is set).
+    arch:
+        Architecture variant string (e.g. ``'optim_2'``).
+    variant:
+        MobileViT size string (e.g. ``'xxs'``).
+    checkpoint_label:
+        Human-readable description of the loaded checkpoint
+        (e.g. ``'best.pth'``, ``'last.pth'``, ``'random weights'``).
+    """
+    header = f"Accuracy summary — MobileViT-{variant.upper()} ({arch})"
+    sep    = "=" * 59
+    lines: list[str] = [sep, f"  {header}", sep]
+    lines.append(f"  Weights : {checkpoint_label}")
+    lines.append(sep)
+    lines.append(f"  {'Model':<26s}  {'Top-1':>8s}  {'Top-5':>8s}")
+    lines.append(f"  {'-'*26}  {'-'*8}  {'-'*8}")
+
+    for label, top1, top5 in rows:
+        t1 = f"{top1:>7.2f}%" if top1 is not None else "    n/a  "
+        t5 = f"{top5:>7.2f}%" if top5 is not None else "    n/a  "
+        lines.append(f"  {label:<26s}  {t1}  {t5}")
+
+    # Accuracy-drop rows relative to the first evaluated model
+    evaluated = [(lbl, t1, t5) for lbl, t1, t5 in rows
+                 if t1 is not None and t5 is not None]
+    if len(evaluated) >= 2:
+        base_label, base_t1, base_t5 = evaluated[0]
+        lines.append(f"  {'-'*26}  {'-'*8}  {'-'*8}")
+        for label, top1, top5 in evaluated[1:]:
+            d1: float = top1 - base_t1
+            d5: float = top5 - base_t5
+            lines.append(
+                f"  {'Drop vs ' + base_label:<26s}  {d1:>+7.2f}%  {d5:>+7.2f}%"
+            )
+
+    lines.append(sep)
+    table = "\n".join(lines)
+    print()
+    print(table)
+
+    out = Path(path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(table + "\n")
+    print(f"\n✓  Accuracy summary saved → '{out.resolve()}'")
 
 
 def main() -> None:
     args = parse_args()
 
+    # ---- Resolve arch-based paths --------------------------------------------
+    arch_root = Path("archs") / args.arch
+    if args.checkpoint_dir is None:
+        args.checkpoint_dir = str(arch_root / "runs")
+    if args.output_dir is None:
+        args.output_dir = str(arch_root / "out")
+
+    out_dir        = Path(args.output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    float_tflite_path = str(out_dir / f"mobilevit_{args.variant}_float.tflite")
+    int8_tflite_path  = str(out_dir / f"mobilevit_{args.variant}_int8.tflite")
+    summary_path      = str(out_dir / "accuracy_summary.txt")
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"[arch]   {args.arch}  →  {arch_root}")
     print(f"[device] {device}")
+    print(f"[output] {out_dir}")
+
+    # ---- Dynamically load the requested architecture -------------------------
+    print(f"[arch] Loading mobilevit from archs/{args.arch}/mobilevit.py")
+    mobilevit_mod = load_mobilevit_module(args.arch)
+    MobileViT = mobilevit_mod.MobileViT
 
     # ---- Build model ---------------------------------------------------------
-    # Peek at the checkpoint first so we build the model with the correct
-    # number of output classes (e.g. 10 for ImageNette, 1000 for ImageNet).
     _DIMS: dict[str, list[int]] = {
         "xxs": [64, 80, 96],
         "xs":  [96, 120, 144],
@@ -727,9 +876,9 @@ def main() -> None:
         "s":   [16, 32, 64, 64, 96, 96, 128, 128, 160, 160, 640],
     }
     _EXPANSION: dict[str, int] = {"xxs": 2, "xs": 4, "s": 4}
+
     num_classes = peek_num_classes(args.checkpoint, args.checkpoint_dir) or 1000
     print(f"[model] Building MobileViT-{args.variant.upper()} (num_classes={num_classes}) …")
-    from mobilevit import MobileViT
     model = MobileViT(
         image_size=(256, 256),
         dims=_DIMS[args.variant],
@@ -741,23 +890,58 @@ def main() -> None:
     # ---- Load checkpoint -----------------------------------------------------
     load_checkpoint(model, args.checkpoint, args.checkpoint_dir)
 
-    # ---- Accuracy evaluation: float32 ----------------------------------------
+    # Determine a human-readable label for the checkpoint that was loaded
+    _resolved_ckpt = _resolve_checkpoint_path(args.checkpoint, args.checkpoint_dir, silent=True)
+    if _resolved_ckpt is None:
+        checkpoint_label = "random weights (no checkpoint found)"
+    else:
+        _name = Path(_resolved_ckpt).name
+        if _name == "best.pth":
+            checkpoint_label = f"best.pth  ({_resolved_ckpt})"
+        elif _name == "last.pth":
+            checkpoint_label = f"last.pth  ({_resolved_ckpt})"
+        else:
+            checkpoint_label = _resolved_ckpt
+
+    # ---- Accuracy evaluation: float32 PyTorch --------------------------------
     val_loader = None
-    float_top1: Optional[float] = None
-    float_top5: Optional[float] = None
+    float32_top1: Optional[float] = None
+    float32_top5: Optional[float] = None
 
     if not args.skip_eval:
         val_loader = build_val_loader(
             imagenet_root=args.imagenet_root,
             batch_size=args.batch_size * 4,
         )
-        print("\n[accuracy] ── Float32 model ──────────────────────────────────")
-        float_top1, float_top5 = evaluate_model(
+        print("\n[accuracy] ── Float32 PyTorch model ──────────────────────────")
+        float32_top1, float32_top5 = evaluate_model(
             model, val_loader, device,
             max_batches=args.eval_batches,
             desc="float32",
         )
-        print(f"[accuracy] Float32  Top-1: {float_top1:.2f}%  Top-5: {float_top5:.2f}%")
+        print(f"[accuracy] Float32 PyTorch  Top-1: {float32_top1:.2f}%  Top-5: {float32_top5:.2f}%")
+
+    # ---- Float32 TFLite conversion -------------------------------------------
+    print("\n[convert] ── Float32 TFLite export ───────────────────────────────")
+    convert_mobilevit_float_tflite(
+        model=model,
+        output_path=float_tflite_path,
+    )
+
+    # ---- Accuracy evaluation: float32 TFLite ---------------------------------
+    float_tfl_top1: Optional[float] = None
+    float_tfl_top5: Optional[float] = None
+
+    if not args.skip_eval and val_loader is not None:
+        print("\n[accuracy] ── Float32 TFLite model ───────────────────────────")
+        float_tfl_top1, float_tfl_top5 = evaluate_tflite_model(
+            float_tflite_path, val_loader,
+            max_batches=args.eval_batches,
+        )
+        print(
+            f"[accuracy] Float32 TFLite   Top-1: {float_tfl_top1:.2f}%  "
+            f"Top-5: {float_tfl_top5:.2f}%"
+        )
 
     # ---- Calibration data ----------------------------------------------------
     cal_loader = build_calibration_loader(
@@ -765,36 +949,39 @@ def main() -> None:
         batch_size=args.batch_size,
     )
 
-    # ---- Quantize (TFLite path) + export -------------------------------------
+    # ---- INT8 TFLite quantization + export -----------------------------------
     print("\n[quantize] ── INT8 TFLite quantization ───────────────────────────")
-    tflite_path = quantize_mobilevit_int8_tflite(
+    quantize_mobilevit_int8_tflite(
         model=model,
-        output_path=args.output,
+        output_path=int8_tflite_path,
         cal_loader=cal_loader,
         num_calibration_batches=args.num_cal_batches,
     )
 
     # ---- Accuracy evaluation: INT8 TFLite ------------------------------------
+    int8_top1: Optional[float] = None
+    int8_top5: Optional[float] = None
+
     if not args.skip_eval and val_loader is not None:
         print("\n[accuracy] ── INT8 TFLite model ──────────────────────────────")
         int8_top1, int8_top5 = evaluate_tflite_model(
-            tflite_path, val_loader,
+            int8_tflite_path, val_loader,
             max_batches=args.eval_batches,
         )
-        print(f"[accuracy] INT8     Top-1: {int8_top1:.2f}%  Top-5: {int8_top5:.2f}%")
+        print(f"[accuracy] INT8 TFLite      Top-1: {int8_top1:.2f}%  Top-5: {int8_top5:.2f}%")
 
-        # ---- Accuracy summary ------------------------------------------------
-        assert float_top1 is not None and float_top5 is not None
-        drop1 = float_top1 - int8_top1
-        drop5 = float_top5 - int8_top5
-        print()
-        print("=" * 57)
-        print(f"  {'Model':<22s}  {'Top-1':>8s}  {'Top-5':>8s}")
-        print(f"  {'-'*22}  {'-'*8}  {'-'*8}")
-        print(f"  {'Float32':<22s}  {float_top1:>7.2f}%  {float_top5:>7.2f}%")
-        print(f"  {'INT8 (TFLite)':<22s}  {int8_top1:>7.2f}%  {int8_top5:>7.2f}%")
-        print(f"  {'Drop':<22s}  {drop1:>+7.2f}%  {drop5:>+7.2f}%")
-        print("=" * 57)
+    # ---- Three-model accuracy summary ----------------------------------------
+    rows = [
+        ("Float32 (PyTorch)",  float32_top1,   float32_top5),
+        ("Float32 (TFLite)",   float_tfl_top1, float_tfl_top5),
+        ("INT8 (TFLite)",      int8_top1,      int8_top5),
+    ]
+    save_accuracy_summary(
+        summary_path, rows,
+        arch=args.arch,
+        variant=args.variant,
+        checkpoint_label=checkpoint_label,
+    )
 
 
 if __name__ == "__main__":
