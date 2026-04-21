@@ -1,14 +1,14 @@
 ===========================================================
-  Accuracy summary — MobileViT-XXS (optim_0)
+  Accuracy summary — MobileViT-XXS (optim_1)
 ===========================================================
-  Weights : best.pth  (archs/optim_0/runs/best.pth)
+  Weights : best.pth  (archs/optim_1/runs/best.pth)
 ===========================================================
   Model                          Top-1     Top-5
   --------------------------  --------  --------
-  Float32 (PyTorch)             57.73%    91.90%
-  Float32 (TFLite)              57.71%    91.90%
-  INT8 (TFLite)                 56.28%    92.33%
+  Float32 (PyTorch)             55.87%    92.92%
+  Float32 (TFLite)              55.87%    92.89%
+  INT8 (TFLite)                 55.41%    92.76%
   --------------------------  --------  --------
-  Drop vs Float32 (PyTorch)     -0.03%    +0.00%
-  Drop vs Float32 (PyTorch)     -1.45%    +0.43%
+  Drop vs Float32 (PyTorch)     +0.00%    -0.03%
+  Drop vs Float32 (PyTorch)     -0.46%    -0.15%
 ===========================================================

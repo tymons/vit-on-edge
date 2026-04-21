@@ -1,0 +1,301 @@
+Warning: Unsupported TensorFlow Lite semantics for QUANTIZE 'tfl.quantize'. Placing on CPU instead
+ - Input(s), Output and Weight tensors must have quantization parameters
+   Op has tensors with missing quantization parameters: serving_default_args_0:0
+Warning: Unsupported TensorFlow Lite semantics for RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;4'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;4' has shape: [1, 64, 16, 2, 16, 2]
+Warning: Unsupported TensorFlow Lite semantics for TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;5'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;4' has shape: [1, 64, 16, 2, 16, 2], Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;5' has shape: [1, 64, 2, 2, 16, 16]
+Warning: Unsupported TensorFlow Lite semantics for RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;6'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;5' has shape: [1, 64, 2, 2, 16, 16]
+Warning: Unsupported TensorFlow Lite semantics for RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;9'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;9' has shape: [1, 64, 2, 2, 16, 16]
+Warning: Unsupported TensorFlow Lite semantics for TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;10'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;9' has shape: [1, 64, 2, 2, 16, 16], Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;10' has shape: [1, 64, 16, 2, 16, 2]
+Warning: Unsupported TensorFlow Lite semantics for RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;11'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;10' has shape: [1, 64, 16, 2, 16, 2]
+Warning: Unsupported TensorFlow Lite semantics for RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;4'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;4' has shape: [1, 80, 8, 2, 8, 2]
+Warning: Unsupported TensorFlow Lite semantics for TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;5'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;4' has shape: [1, 80, 8, 2, 8, 2], Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;5' has shape: [1, 80, 2, 2, 8, 8]
+Warning: Unsupported TensorFlow Lite semantics for RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;6'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;5' has shape: [1, 80, 2, 2, 8, 8]
+Warning: Unsupported TensorFlow Lite semantics for RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;9'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;9' has shape: [1, 80, 2, 2, 8, 8]
+Warning: Unsupported TensorFlow Lite semantics for TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;10'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;9' has shape: [1, 80, 2, 2, 8, 8], Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;10' has shape: [1, 80, 8, 2, 8, 2]
+Warning: Unsupported TensorFlow Lite semantics for RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;11'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;10' has shape: [1, 80, 8, 2, 8, 2]
+Warning: Unsupported TensorFlow Lite semantics for RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;4'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;4' has shape: [1, 96, 4, 2, 4, 2]
+Warning: Unsupported TensorFlow Lite semantics for TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;5'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;4' has shape: [1, 96, 4, 2, 4, 2], Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;5' has shape: [1, 96, 2, 2, 4, 4]
+Warning: Unsupported TensorFlow Lite semantics for RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;6'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;5' has shape: [1, 96, 2, 2, 4, 4]
+Warning: Unsupported TensorFlow Lite semantics for RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;9'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;9' has shape: [1, 96, 2, 2, 4, 4]
+Warning: Unsupported TensorFlow Lite semantics for TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;10'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;9' has shape: [1, 96, 2, 2, 4, 4], Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;10' has shape: [1, 96, 4, 2, 4, 2]
+Warning: Unsupported TensorFlow Lite semantics for RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;11'. Placing on CPU instead
+ - Input(s) and Output tensors must not be greater than 4D
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;10' has shape: [1, 96, 4, 2, 4, 2]
+Warning: Unsupported TensorFlow Lite semantics for DEQUANTIZE 'StatefulPartitionedCall:0'. Placing on CPU instead
+ - Input(s), Output and Weight tensors must have quantization parameters
+   Op has tensors with missing quantization parameters: StatefulPartitionedCall:0
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/torch.nn.modules.container.Sequential_conv3/torch.nn.modules.conv.Conv2d_0;' is not supported on the NPU. Placing on CPU instead
+ - The following shape/permutations are supported for transpose:
+        When ifm rank is 2: WxC -> CxW
+        When ifm rank is 3: HxWxC -> WxHxC, 1xWxC -> 1xCxW, Hx1xC -> Cx1xH
+        When ifm rank is 4: 1xHxWxC -> 1xWxHxC, 1x1xWxC -> 1x1xCxW, 1xHx1xC -> 1xCx1xW
+   Op has ifm_shape: [1, 96, 8, 8] and permutation is: [0 2 3 1]
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;8' is not supported on the NPU. Placing on CPU instead
+ - The following shape/permutations are supported for transpose:
+        When ifm rank is 2: WxC -> CxW
+        When ifm rank is 3: HxWxC -> WxHxC, 1xWxC -> 1xCxW, Hx1xC -> Cx1xH
+        When ifm rank is 4: 1xHxWxC -> 1xWxHxC, 1x1xWxC -> 1x1xCxW, 1xHx1xC -> 1xCx1xW
+   Op has ifm_shape: [1, 4, 16, 96] and permutation is: [0 3 1 2]
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;52' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;51' has batch size: 4
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;50' is a CPU only op
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;47' is a CPU only op
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;40' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;39' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;34' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;33' has batch size: 4
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;32' is a CPU only op
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;29' is a CPU only op
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;22' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;21' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;16' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;15' has batch size: 4
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;14' is a CPU only op
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;11' is a CPU only op
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;4' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;3' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;7' is not supported on the NPU. Placing on CPU instead
+ - The following shape/permutations are supported for transpose:
+        When ifm rank is 2: WxC -> CxW
+        When ifm rank is 3: HxWxC -> WxHxC, 1xWxC -> 1xCxW, Hx1xC -> Cx1xH
+        When ifm rank is 4: 1xHxWxC -> 1xWxHxC, 1x1xWxC -> 1x1xCxW, 1xHx1xC -> 1xCx1xW
+   Op has ifm_shape: [1, 96, 4, 16] and permutation is: [0 2 3 1]
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/torch.nn.modules.container.Sequential_conv2/torch.nn.modules.activation.ReLU6_2;' is not supported on the NPU. Placing on CPU instead
+ - The following shape/permutations are supported for transpose:
+        When ifm rank is 2: WxC -> CxW
+        When ifm rank is 3: HxWxC -> WxHxC, 1xWxC -> 1xCxW, Hx1xC -> Cx1xH
+        When ifm rank is 4: 1xHxWxC -> 1xWxHxC, 1x1xWxC -> 1x1xCxW, 1xHx1xC -> 1xCx1xW
+   Op has ifm_shape: [1, 8, 8, 96] and permutation is: [0 3 1 2]
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/torch.nn.modules.container.Sequential_conv3/torch.nn.modules.conv.Conv2d_0;' is not supported on the NPU. Placing on CPU instead
+ - The following shape/permutations are supported for transpose:
+        When ifm rank is 2: WxC -> CxW
+        When ifm rank is 3: HxWxC -> WxHxC, 1xWxC -> 1xCxW, Hx1xC -> Cx1xH
+        When ifm rank is 4: 1xHxWxC -> 1xWxHxC, 1x1xWxC -> 1x1xCxW, 1xHx1xC -> 1xCx1xW
+   Op has ifm_shape: [1, 80, 16, 16] and permutation is: [0 2 3 1]
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;8' is not supported on the NPU. Placing on CPU instead
+ - The following shape/permutations are supported for transpose:
+        When ifm rank is 2: WxC -> CxW
+        When ifm rank is 3: HxWxC -> WxHxC, 1xWxC -> 1xCxW, Hx1xC -> Cx1xH
+        When ifm rank is 4: 1xHxWxC -> 1xWxHxC, 1x1xWxC -> 1x1xCxW, 1xHx1xC -> 1xCx1xW
+   Op has ifm_shape: [1, 4, 64, 80] and permutation is: [0 3 1 2]
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;70' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;69' has batch size: 4
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;68' is a CPU only op
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;65' is a CPU only op
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;58' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;57' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;52' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;51' has batch size: 4
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;50' is a CPU only op
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;47' is a CPU only op
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;40' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;39' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;34' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;33' has batch size: 4
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;32' is a CPU only op
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;29' is a CPU only op
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;22' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;21' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;16' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;15' has batch size: 4
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;14' is a CPU only op
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;11' is a CPU only op
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;4' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;3' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;7' is not supported on the NPU. Placing on CPU instead
+ - The following shape/permutations are supported for transpose:
+        When ifm rank is 2: WxC -> CxW
+        When ifm rank is 3: HxWxC -> WxHxC, 1xWxC -> 1xCxW, Hx1xC -> Cx1xH
+        When ifm rank is 4: 1xHxWxC -> 1xWxHxC, 1x1xWxC -> 1x1xCxW, 1xHx1xC -> 1xCx1xW
+   Op has ifm_shape: [1, 80, 4, 64] and permutation is: [0 2 3 1]
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/torch.nn.modules.container.Sequential_conv2/torch.nn.modules.activation.ReLU6_2;' is not supported on the NPU. Placing on CPU instead
+ - The following shape/permutations are supported for transpose:
+        When ifm rank is 2: WxC -> CxW
+        When ifm rank is 3: HxWxC -> WxHxC, 1xWxC -> 1xCxW, Hx1xC -> Cx1xH
+        When ifm rank is 4: 1xHxWxC -> 1xWxHxC, 1x1xWxC -> 1x1xCxW, 1xHx1xC -> 1xCx1xW
+   Op has ifm_shape: [1, 16, 16, 80] and permutation is: [0 3 1 2]
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/torch.nn.modules.container.Sequential_conv3/torch.nn.modules.conv.Conv2d_0;' is not supported on the NPU. Placing on CPU instead
+ - The following shape/permutations are supported for transpose:
+        When ifm rank is 2: WxC -> CxW
+        When ifm rank is 3: HxWxC -> WxHxC, 1xWxC -> 1xCxW, Hx1xC -> Cx1xH
+        When ifm rank is 4: 1xHxWxC -> 1xWxHxC, 1x1xWxC -> 1x1xCxW, 1xHx1xC -> 1xCx1xW
+   Op has ifm_shape: [1, 64, 32, 32] and permutation is: [0 2 3 1]
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;8' is not supported on the NPU. Placing on CPU instead
+ - The following shape/permutations are supported for transpose:
+        When ifm rank is 2: WxC -> CxW
+        When ifm rank is 3: HxWxC -> WxHxC, 1xWxC -> 1xCxW, Hx1xC -> Cx1xH
+        When ifm rank is 4: 1xHxWxC -> 1xWxHxC, 1x1xWxC -> 1x1xCxW, 1xHx1xC -> 1xCx1xW
+   Op has ifm_shape: [1, 4, 256, 64] and permutation is: [0 3 1 2]
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;34' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;33' has batch size: 4
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;32' is a CPU only op
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;29' is a CPU only op
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;22' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;21' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;16' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;15' has batch size: 4
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;14' is a CPU only op
+Info: BATCH_MATMUL 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;11' is a CPU only op
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;4' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;3' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;7' is not supported on the NPU. Placing on CPU instead
+ - The following shape/permutations are supported for transpose:
+        When ifm rank is 2: WxC -> CxW
+        When ifm rank is 3: HxWxC -> WxHxC, 1xWxC -> 1xCxW, Hx1xC -> Cx1xH
+        When ifm rank is 4: 1xHxWxC -> 1xWxHxC, 1x1xWxC -> 1x1xCxW, 1xHx1xC -> 1xCx1xW
+   Op has ifm_shape: [1, 64, 4, 256] and permutation is: [0 2 3 1]
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/torch.nn.modules.container.Sequential_conv2/torch.nn.modules.activation.ReLU6_2;' is not supported on the NPU. Placing on CPU instead
+ - The following shape/permutations are supported for transpose:
+        When ifm rank is 2: WxC -> CxW
+        When ifm rank is 3: HxWxC -> WxHxC, 1xWxC -> 1xCxW, Hx1xC -> Cx1xH
+        When ifm rank is 4: 1xHxWxC -> 1xWxHxC, 1x1xWxC -> 1x1xCxW, 1xHx1xC -> 1xCx1xW
+   Op has ifm_shape: [1, 32, 32, 64] and permutation is: [0 3 1 2]
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;8' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;5' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;7' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;6' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;26' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;23' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;25' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;24' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;8' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;5' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;7' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;6' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;26' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;23' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;25' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;24' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;44' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;41' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;43' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;42' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;62' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;59' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;61' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;60' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;8' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;5' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;7' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;6' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;26' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;23' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;25' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;24' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;44' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;41' has batch size: 4
+Warning: TRANSPOSE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;43' is not supported on the NPU. Placing on CPU instead
+ - IFM Tensor batch size must be 1
+   Tensor 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2/mobilevit_optim_2.Transformer_transformer/mobilevit_optim_2.PreNorm_0/mobilevit_optim_2.Attention_fn;42' has batch size: 4
+
+Network summary for mobilevit_xxs_int8
+Accelerator configuration               Ethos_U55_128
+System configuration             Ethos_U55_High_End_Embedded
+Memory mode                               Shared_Sram
+Accelerator clock                                 500 MHz
+Design peak SRAM bandwidth                       3.73 GB/s
+Design peak Off-chip Flash bandwidth             0.47 GB/s
+
+Total SRAM used                               8848.00 KiB
+Total Off-chip Flash used                     1336.53 KiB
+
+CPU operators = 86 (9.5%)
+NPU operators = 820 (90.5%)
+
+Average SRAM bandwidth                           2.63 GB/s
+Input   SRAM bandwidth                         120.63 MB/batch
+Weight  SRAM bandwidth                           5.35 MB/batch
+Output  SRAM bandwidth                          69.61 MB/batch
+Total   SRAM bandwidth                         195.66 MB/batch
+Total   SRAM bandwidth            per input    195.66 MB/inference (batch size 1)
+
+Average Off-chip Flash bandwidth                 0.04 GB/s
+Input   Off-chip Flash bandwidth                 0.46 MB/batch
+Weight  Off-chip Flash bandwidth                 2.32 MB/batch
+Output  Off-chip Flash bandwidth                 0.00 MB/batch
+Total   Off-chip Flash bandwidth                 2.80 MB/batch
+Total   Off-chip Flash bandwidth  per input      2.80 MB/inference (batch size 1)
+
+Neural network macs                         331544064 MACs/batch
+
+Warning: Could not write the following attributes to RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;4' ReshapeOptions field: new_shape
+Warning: Could not write the following attributes to RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;6' ReshapeOptions field: new_shape
+Warning: Could not write the following attributes to RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;9' ReshapeOptions field: new_shape
+Warning: Could not write the following attributes to RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_0;11' ReshapeOptions field: new_shape
+Warning: Could not write the following attributes to RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;4' ReshapeOptions field: new_shape
+Warning: Could not write the following attributes to RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;6' ReshapeOptions field: new_shape
+Warning: Could not write the following attributes to RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;9' ReshapeOptions field: new_shape
+Warning: Could not write the following attributes to RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_1;11' ReshapeOptions field: new_shape
+Warning: Could not write the following attributes to RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;4' ReshapeOptions field: new_shape
+Warning: Could not write the following attributes to RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;6' ReshapeOptions field: new_shape
+Warning: Could not write the following attributes to RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;9' ReshapeOptions field: new_shape
+Warning: Could not write the following attributes to RESHAPE 'litert_torch._convert.to_channel_last_io.ChannelLastIOWrapper/mobilevit_optim_2.MobileViT_wrapped/mobilevit_optim_2.MobileViTBlock_2;11' ReshapeOptions field: new_shape

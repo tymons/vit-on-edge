@@ -211,6 +211,15 @@ All variants use 256 × 256 input resolution.
 
 ---
 
+### Vela compilation
+
+```bash
+vela ./archs/optim_3/out/mobilevit_xxs_int8.tflite --config /home/tymons/projects/tinyvit/mobilevit-pytorch/vela/default_vela.ini --output-dir archs/optim_3/out/ --accelerator-config=ethos-u55-128 --optimise=Size --system-config=Ethos_U55_High_End_Embedded --memory-mode=Shared_Sram > ./archs/optim_3/out/vela-compilation-log.txt
+```
+
+---
+
+
 ## Citation
 
 ```bibtex
